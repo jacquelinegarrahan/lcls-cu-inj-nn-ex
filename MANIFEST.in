@@ -1,1 +1,2 @@
-include lcls_cu_inj_nn_ex/files/*
+include lcls_cu_inj_nn_ex/files/*include versioneer.py
+include lcls_cu_inj_nn_ex/_version.py
