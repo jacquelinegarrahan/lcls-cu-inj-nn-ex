@@ -1,0 +1,3 @@
+lume-epics
+tensorflow
+numpy
