@@ -11,7 +11,7 @@ with open(path.join(cur_dir, "requirements.txt"), "r") as f:
 
 setup(
     name="lcls_cu_inj_nn_ex",
-    version=0.0,
+    version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     author="SLAC National Accelerator Laboratory",
     author_email="jgarra@slac.stanford.edu",
