@@ -21,4 +21,7 @@ setup(
     url="https://github.com/jacquelinegarrahan/lcls-cu-inj-nn-ex",
     include_package_data=True,
     python_requires=">=3.7",
+    entry_points = {
+        "orchestration": "model=lcls_cu_inj_nn_ex.model:LCLSCuInjNN"
+    }
 )
