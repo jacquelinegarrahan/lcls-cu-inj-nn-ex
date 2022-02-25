@@ -22,6 +22,9 @@ setup(
     include_package_data=True,
     python_requires=">=3.7",
     entry_points = {
-        "orchestration": "model=lcls_cu_inj_nn_ex.model:LCLSCuInjNN"
+        "orchestration": [
+            "lcls_cu_inj_nn_ex.model=lcls_cu_inj_nn_ex.model:LCLSCuInjNN",
+  #          "lcls_cu_inj_nn_ex.flow=lcls_cu_inj_nn_ex.model:LCLSCuInjNN"
+        ]
     }
 )
