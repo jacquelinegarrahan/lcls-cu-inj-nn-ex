@@ -1,5 +1,5 @@
 input_variables:
-  distgen:r_dist:sigma_xy:value: 
+  distgen:r_dist:sigma_xy:value:
     pvname: IRIS:LR20:130:CONFG_SEL
     protocol: ca
     serve: false
@@ -9,67 +9,93 @@ input_variables:
     protocol: ca
     serve: false
 
-  CQ01:b1_gradient: 
+  CQ01:b1_gradient:
     pvname: QUAD:IN20:121:BACT
     protocol: ca
     serve: false
 
-  SQ01:b1_gradient: 
+  SQ01:b1_gradient:
     pvname: QUAD:IN20:122:BACT
     protocol: ca
     serve: false
 
-  L0A_phase:dtheta0_deg: 
+  L0A_phase:dtheta0_deg:
     pvname: ACCL:IN20:300:L0A_PDES
     protocol: ca
     serve: false
 
-  L0B_phase:dtheta0_deg 	: 
-    pvname: ACCL:IN20:400:L0B_PDES 	
+  L0B_phase:dtheta0_deg:
+    pvname: ACCL:IN20:400:L0B_PDES
     protocol: ca
     serve: false
 
-  L0A_scale:voltage: 
+  L0A_scale:voltage:
     pvname: ACCL:IN20:300:L0A_ADES
     protocol: ca
     serve: false
 
-  L0B_scale:voltage: 
+  L0B_scale:voltage:
     pvname: ACCL:IN20:400:L0B_ADES
     protocol: ca
     serve: false
 
-  QA01:b1_gradient: 
+  QA01:b1_gradient:
     pvname: QUAD:IN20:361:BDES
     protocol: ca
     serve: false
 
-  QA02:b1_gradient: 
+  QA02:b1_gradient:
     pvname: QUAD:IN20:371:BACT
     protocol: ca
     serve: false
 
-  QE01:b1_gradient: 
+  QE01:b1_gradient:
     pvname: QUAD:IN20:425:BACT
     protocol: ca
     serve: false
 
-  QE02:b1_gradient: 
+  QE02:b1_gradient:
     pvname: QUAD:IN20:441:BACT
     protocol: ca
     serve: false
 
-  QE03:b1_gradient: 
+  QE03:b1_gradient:
     pvname: QUAD:IN20:511:BACT
     protocol: ca
     serve: false
 
-  QE04:b1_gradient: 
+  QE04:b1_gradient:
     pvname: QUAD:IN20:525:BDES
     protocol: ca
     serve: false
 
-  distgen:t_dist:length:value: 
-    pvname:
-    protocol: ca
-    serve: false
+output_variables:
+  output:
+    pvname: OUTPUT
+    fields: 
+      - end_n_particle
+      - end_mean_gamma
+      - end_sigma_gamma
+      - end_mean_x
+      - end_mean_y
+      - end_norm_emit_x
+      - end_norm_emit_y
+      - end_norm_emit_z
+      - end_sigma_x
+      - end_sigma_y
+      - end_sigma_z
+      - end_mean_px
+      - end_mean_py
+      - end_mean_pz
+      - end_sigma_px
+      - end_sigma_py
+      - end_sigma_pz
+      - end_higher_order_energy_spread
+      - end_cov_x__px
+      - end_cov_y__py
+      - end_cov_z__pz
+      - x:y
+      - out_ymax
+      - out_xmax
+      - out_ymin
+      - out_xmin
