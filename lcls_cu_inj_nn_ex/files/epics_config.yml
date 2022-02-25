@@ -72,6 +72,7 @@ input_variables:
 output_variables:
   output:
     pvname: OUTPUT
+    protocol: pva
     fields: 
       - end_n_particle
       - end_mean_gamma
