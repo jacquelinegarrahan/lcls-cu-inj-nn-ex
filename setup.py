@@ -24,7 +24,7 @@ setup(
     entry_points = {
         "orchestration": [
             "lcls_cu_inj_nn_ex.model=lcls_cu_inj_nn_ex.model:LCLSCuInjNN",
-  #          "lcls_cu_inj_nn_ex.flow=lcls_cu_inj_nn_ex.model:LCLSCuInjNN"
+            "lcls_cu_inj_nn_ex.flow=lcls_cu_inj_nn_ex.flow.flow:build_flow"
         ]
     }
 )

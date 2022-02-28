@@ -1,0 +1,49 @@
+name: Publish flow docker image
+
+on:
+  push:
+    branches:
+      - master
+
+ # release:
+ #   types: [published]
+ #   branches:
+ #     - main
+
+jobs:
+  push_to_registry:
+    if: ${{ github.repository == 'jacquelinegarrahan/lcls-cu-inj-nn-ex' }}
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        shell: bash -l {0}
+        run: 
+          cd flow
+          python flow
+
+      - name: env setup  
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-activate-base: true
+          activate-environment: true
+          python-version: ${{ matrix.python-version }}
+          channels: anaconda,conda-forge
+          channel-priority: flexible
+      - name: Build package
+        shell: bash -l {0}
+        run: |
+          conda install -f requirements.txt
+          pip install -e .
+          cd flow
+          python flow.py

@@ -1,3 +1,5 @@
 lume-epics
 tensorflow
 numpy
+lume-model>=0.13
+prefect[kubernetes]
