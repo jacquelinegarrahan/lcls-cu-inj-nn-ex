@@ -26,24 +26,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
-        shell: bash -l {0}
-        run: 
-          cd flow
-          python flow
 
-      - name: env setup  
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          auto-activate-base: true
-          activate-environment: true
-          python-version: ${{ matrix.python-version }}
-          channels: anaconda,conda-forge
-          channel-priority: flexible
-      - name: Build package
-        shell: bash -l {0}
-        run: |
-          conda install -f requirements.txt
-          pip install -e .
-          cd flow
-          python flow.py
+          context: ./lcls_cu_inj_nn_ex/flow
+          push: true
+      #    tags: jgarrahan/nalms-grafana:${{ github.event.release.tag_name }}, jgarrahan/nalms-grafana:latest
+          tags: jgarrahan/lcls-cu-inj-nn-ex:latest
