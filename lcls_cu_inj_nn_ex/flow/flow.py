@@ -1,5 +1,5 @@
 from prefect import Flow, task
-from prefect.storage import Docker
+from prefect.storage import KubernetesRun
 import time
 import pandas as pd
 import os
@@ -46,7 +46,7 @@ def get_flow():
     with Flow(
             "lcls-cu-inj-nn-ex",
             storage = docker_storage,
-            run_config=DockerRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
+            run_config=KubernetesRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
         ) as flow:
         input_variables = Parameter("input_variables")
         output_variables = predict(input_variables)
