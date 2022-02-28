@@ -24,7 +24,7 @@ COPY --from=build /venv /venv
 COPY _entrypoint.sh /usr/local/bin/_entrypoint.sh
 RUN chmod +x /usr/local/bin/_entrypoint.sh
 
-RUN mdkir /opt/prefect/flows
+RUN mkdir /opt/prefect/flows
 COPY flow.py /opt/prefect/flows/flow.py
 
 # When image is run, run the code with the environment
