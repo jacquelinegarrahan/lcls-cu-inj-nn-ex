@@ -2,7 +2,6 @@ from prefect import Flow, task
 from prefect.storage import Docker
 import time
 import pandas as pd
-from slac_services.services.scheduling import create_project, register_flow
 import os
 import sys
 from prefect import Parameter
