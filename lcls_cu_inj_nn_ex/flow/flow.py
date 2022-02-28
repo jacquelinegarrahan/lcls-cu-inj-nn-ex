@@ -15,8 +15,22 @@ import tarfile
 import os
 
 
+
 @task(log_stdout=True, cache_for=timedelta(hours=1),
     cache_validator=cache_validators.all_parameters)
+def build_input_variables(input_dict):
+
+    input_variables = LCLSCuInjNN().input_variables
+
+    for input_var in input_variables:
+        if input_dict.get(input_var):
+            input_variables[input_var].value = input_dict[input_var]
+
+        else:
+            input_variables[input_var].value = input_variables[input_var].default
+        
+
+@task(log_stdout=True)
 def predict(input_variables):
     model = LCLSCuInjNN()
     output_variables = model.evaluate(input_variables)
@@ -48,7 +62,8 @@ def get_flow():
             storage = docker_storage,
             run_config=KubernetesRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
         ) as flow:
-        input_variables = Parameter("input_variables")
+        input_dict = Parameter("input_dict")
+        input_variables = build_input_variables(input_dict)
         output_variables = predict(input_variables)
 
     docker_storage.add_flow(flow)
