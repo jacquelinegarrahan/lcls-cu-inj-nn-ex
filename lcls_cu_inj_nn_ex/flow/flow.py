@@ -13,8 +13,7 @@ from datetime import timedelta
 from contextlib import contextmanager
 from pkg_resources import resource_filename
 import tarfile
-
-
+import os
 
 
 @task(log_stdout=True, cache_for=timedelta(hours=1),
@@ -25,7 +24,7 @@ def predict(input_variables):
     return output_variables
 
 
-def build_flow():
+def get_flow():
     dirname = os.path.dirname(__file__)
 
     # Requires a docker registry
@@ -34,24 +33,30 @@ def build_flow():
         print("Requires docker registry to be set.")
         sys.exit()
 
+    # THIS SHOULD BE CONVERTED INTO A UTILITY
+    docker_storage = Docker(
+        registry_url=docker_registry, 
+        image_name="lcls-cu-inj-nn-ex",
+        image_tag="latest",
+       # path=os.path.dirname(__file__),
+       # build_kwargs = {"nocache": True},
+        stored_as_script=True,
+        path=f"/opt/prefect/flows/flow.py",
+    )
+
     with Flow(
             "lcls-cu-inj-nn-ex",
-            storage=Docker(
-                registry_url=docker_registry, 
-                image_name="lcls-cu-inj-nn-ex",
-                image_tag="latest",
-                dockerfile="Dockerfile",
-                build_kwargs = {"nocache": True}
-            ),
+            storage = docker_storage,
             run_config=DockerRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
         ) as flow:
         input_variables = Parameter("input_variables")
         output_variables = predict(input_variables)
 
+    docker_storage.add_flow(flow)
+
     return flow
 
 
 
-
 if __name__ == "__main__":
-    build_flow()
+    get_flow()
