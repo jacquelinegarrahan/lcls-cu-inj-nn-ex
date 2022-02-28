@@ -41,7 +41,7 @@ def get_flow():
        # path=os.path.dirname(__file__),
        # build_kwargs = {"nocache": True},
         stored_as_script=True,
-        path=f"/opt/prefect/flows/flow.py",
+        path=f"/opt/prefect/flow.py",
     )
 
     with Flow(
