@@ -7,37 +7,12 @@ import os
 import sys
 from prefect import Parameter
 from prefect.engine import cache_validators
+from prefect.run_configs import DockerRun
 from lcls_cu_inj_nn_ex.model import LCLSCuInjNN
 from datetime import timedelta
 from contextlib import contextmanager
 from pkg_resources import resource_filename
 import tarfile
-
-
-
-DOCKERFILE = resource_filename(
-    "lcls_cu_inj_nn_ex.flow", "Dockerfile"
-)
-
-
-@contextmanager
-def working_directory(path):
-    """
-    A context manager which changes the working directory to the given
-    path, and then changes it back to its previous value on exit.
-    Usage:
-    > # Do something in original directory
-    > with working_directory('/my/new/path'):
-    >     # Do something in new directory
-    > # Back to old directory
-    """
-
-    prev_cwd = os.getcwd()
-    os.chdir(path)
-    try:
-        yield
-    finally:
-        os.chdir(prev_cwd)
 
 
 
@@ -59,26 +34,23 @@ def build_flow():
         print("Requires docker registry to be set.")
         sys.exit()
 
-    with tarfile.open("tmp.tar.gz", "w") as tar_handle:
-        for file in os.listdir(dirname):
-            tar_handle.add(f"{dirname}/{file}", arcname=file)
-
-    with working_directory(dirname) as cwd:
-        flow = Flow(
+    with Flow(
             "lcls-cu-inj-nn-ex",
             storage=Docker(
                 registry_url=docker_registry, 
                 image_name="lcls-cu-inj-nn-ex",
+                image_tag="latest",
                 dockerfile="Dockerfile",
                 build_kwargs = {"nocache": True}
-            )
-        )
-
-    with flow:
+            ),
+            run_config=DockerRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
+        ) as flow:
         input_variables = Parameter("input_variables")
         output_variables = predict(input_variables)
 
     return flow
+
+
 
 
 if __name__ == "__main__":
