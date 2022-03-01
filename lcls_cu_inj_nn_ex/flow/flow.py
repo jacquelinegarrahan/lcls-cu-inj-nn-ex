@@ -18,14 +18,21 @@ import os
 
 @task(log_stdout=True, cache_for=timedelta(hours=1),
     cache_validator=cache_validators.all_parameters)
-def build_input_variables(*args):
+def build_input_variables(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_total_charge_value, SOL1_solenoid_field_scale, CQ01_b1_gradient, SQ01_b1_gradient, L0A_phase_dtheta_deg, L0A_scale_voltage, end_mean_z):
 
     input_variables = LCLSCuInjNN().input_variables
 
-    for i, input_var in enumerate(input_variables.keys()):
-        input_variables[input_var].value = args[i]
+    input_variables["end_mean_z"].value = end_mean_z
+    input_variables["L0A_scale:voltage"].value = L0A_scale_voltage
+    input_variables["L0A_phase:dtheta0_deg"].value = L0A_phase_dtheta_deg
+    input_variables["SQ01:b1_gradient"].value = SQ01_b1_gradient
+    input_variables["CQ01:b1_gradient"].value = CQ01_b1_gradient
+    input_variables["SOL1:solenoid_field_scale"].value = SOL1_solenoid_field_scale
+    input_variables["distgen:total_charge:value"].value = distgen_total_charge_value
+    input_variables["distgen:t_dist:length:value"].value = distgen_t_dist_length_value
+    input_variables["distgen:r_dist:sigma_xy:value"].value = distgen_r_dist_sigma_xy_value
 
-    return input_variables
+    return list(input_variables.values())
 
 @task(log_stdout=True)
 def predict(input_variables):
