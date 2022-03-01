@@ -18,17 +18,14 @@ import os
 
 @task(log_stdout=True, cache_for=timedelta(hours=1),
     cache_validator=cache_validators.all_parameters)
-def build_input_variables(input_dict):
+def build_input_variables(*args):
 
     input_variables = LCLSCuInjNN().input_variables
 
-    for input_var in input_variables:
-        if input_dict.get(input_var):
-            input_variables[input_var].value = input_dict[input_var]
+    for i, input_var in enumerate(input_variables.keys()):
+        input_variables[input_var].value = args[i]
 
-        else:
-            input_variables[input_var].value = input_variables[input_var].default
-        
+    return input_variables
 
 @task(log_stdout=True)
 def predict(input_variables):
@@ -37,8 +34,12 @@ def predict(input_variables):
     return output_variables
 
 
+
+
 def get_flow():
     dirname = os.path.dirname(__file__)
+
+    input_variables = LCLSCuInjNN().input_variables
 
     # Requires a docker registry
     docker_registry = os.environ.get("DOCKER_REGISTRY")
@@ -62,8 +63,15 @@ def get_flow():
             storage = docker_storage,
             run_config=KubernetesRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
         ) as flow:
-        input_dict = Parameter("input_dict")
-        input_variables = build_input_variables(input_dict)
+
+
+        params = []
+        for var in input_variables.values():
+
+
+            params.append(Parameter(var.name, default=var.default))
+            
+        input_variables = build_input_variables(*params)
         output_variables = predict(input_variables)
 
     docker_storage.add_flow(flow)
