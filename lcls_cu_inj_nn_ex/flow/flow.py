@@ -63,7 +63,7 @@ def get_flow():
     with Flow(
             "lcls-cu-inj-nn-ex",
             storage = docker_storage,
-            run_config=KubernetesRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex")
+            run_config=KubernetesRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex", image_pull_policy="Always",)
         ) as flow:
 
 
