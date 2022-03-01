@@ -1,7 +1,5 @@
 from prefect import Flow, task
 from prefect.storage import Docker
-import time
-import pandas as pd
 import os
 import sys
 from prefect import Parameter
@@ -9,9 +7,6 @@ from prefect.engine import cache_validators
 from prefect.run_configs import KubernetesRun
 from lcls_cu_inj_nn_ex.model import LCLSCuInjNN
 from datetime import timedelta
-from contextlib import contextmanager
-from pkg_resources import resource_filename
-import tarfile
 import os
 
 
