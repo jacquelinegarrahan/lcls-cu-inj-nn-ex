@@ -83,4 +83,5 @@ def get_flow():
 
 
 if __name__ == "__main__":
-    get_flow()
+    flow = get_flow()
+    flow.run()
