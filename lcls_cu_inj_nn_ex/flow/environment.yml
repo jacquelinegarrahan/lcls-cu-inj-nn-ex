@@ -3,11 +3,10 @@ channels:
   - conda-forge
 dependencies:
   - Python=3.9
-  - pip
-  - lume-epics
   - lume-model=0.13
   - tensorflow
   - numpy
   - prefect[kubernetes]
+  - pip
   - pip:
     - git+https://github.com/jacquelinegarrahan/lcls-cu-inj-nn-ex.git
