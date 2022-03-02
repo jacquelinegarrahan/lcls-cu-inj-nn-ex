@@ -9,6 +9,13 @@ from lcls_cu_inj_nn_ex.model import LCLSCuInjNN
 from datetime import timedelta
 import os
 
+dirname = os.path.dirname(__file__)
+
+# Requires a docker registry
+DOCKER_REGISTRY = os.environ.get("DOCKER_REGISTRY")
+if not DOCKER_REGISTRY:
+    print("Requires docker registry to be set.")
+    sys.exit()
 
 
 @task(log_stdout=True, cache_for=timedelta(hours=1),
@@ -37,51 +44,38 @@ def predict(input_variables):
 
 
 
+input_variables = LCLSCuInjNN().input_variables
+
+docker_storage = Docker(
+    registry_url=DOCKER_REGISTRY, 
+    image_name="lcls-cu-inj-nn-ex",
+    image_tag="latest",
+    # path=os.path.dirname(__file__),
+    # build_kwargs = {"nocache": True},
+    stored_as_script=True,
+    path=f"/opt/prefect/flow.py",
+)
+
+
+with Flow(
+        "lcls-cu-inj-nn-ex",
+        storage = docker_storage,
+        run_config=KubernetesRun(image=f"{DOCKER_REGISTRY}/lcls-cu-inj-nn-ex", image_pull_policy="Always",)
+    ) as flow:
+
+
+    params = []
+    for var in input_variables.values():
+
+
+        params.append(Parameter(var.name, default=var.default))
+        
+    input_variables = build_input_variables(*params)
+    output_variables = predict(input_variables)
+
+docker_storage.add_flow(flow)
+
+
 
 def get_flow():
-    dirname = os.path.dirname(__file__)
-
-    input_variables = LCLSCuInjNN().input_variables
-
-    # Requires a docker registry
-    docker_registry = os.environ.get("DOCKER_REGISTRY")
-    if not docker_registry:
-        print("Requires docker registry to be set.")
-        sys.exit()
-
-    # THIS SHOULD BE CONVERTED INTO A UTILITY
-    docker_storage = Docker(
-        registry_url=docker_registry, 
-        image_name="lcls-cu-inj-nn-ex",
-        image_tag="latest",
-       # path=os.path.dirname(__file__),
-       # build_kwargs = {"nocache": True},
-        stored_as_script=True,
-        path=f"/opt/prefect/flow.py",
-    )
-
-    with Flow(
-            "lcls-cu-inj-nn-ex",
-            storage = docker_storage,
-            run_config=KubernetesRun(image=f"{docker_registry}/lcls-cu-inj-nn-ex", image_pull_policy="Always",)
-        ) as flow:
-
-
-        params = []
-        for var in input_variables.values():
-
-
-            params.append(Parameter(var.name, default=var.default))
-            
-        input_variables = build_input_variables(*params)
-        output_variables = predict(input_variables)
-
-    docker_storage.add_flow(flow)
-
     return flow
-
-
-
-if __name__ == "__main__":
-    flow = get_flow()
-    flow.run()
