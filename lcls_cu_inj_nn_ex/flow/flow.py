@@ -32,7 +32,7 @@ def predict(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_
 
     output_variables = model.evaluate(input_variables)
     return {
-        var.name: var.value for var in output_variables
+        var_name: var.value for var_name, var in output_variables.items()
     }
 
 
