@@ -33,11 +33,11 @@ def predict(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_
     output_variables = model.evaluate(list(input_variables.values()))
 
     results = {
-        var.name: var.value for var in output_variables
+        var.name: var.value.astype('float64') for var in output_variables
     }
 
-    results["x:y"] = results["x:y"].astype('float64')
     results["x:y"] = results["x:y"].tolist()
+
 
     return results
 
