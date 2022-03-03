@@ -60,7 +60,8 @@ docker_storage = Docker(
 with Flow(
         "lcls-cu-inj-nn-ex",
         storage = docker_storage,
-        run_config=KubernetesRun(image=f"{DOCKER_REGISTRY}/lcls-cu-inj-nn-ex", image_pull_policy="Always",)
+        run_config=KubernetesRun(image=f"{DOCKER_REGISTRY}/lcls-cu-inj-nn-ex", image_pull_policy="Always"),
+        result=PrefectResult()
     ) as flow:
 
 
