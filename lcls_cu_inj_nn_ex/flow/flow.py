@@ -58,15 +58,15 @@ with Flow(
     input_variables = LCLSCuInjNN().input_variables
 
 
-    end_mean_z = Parameter(input_variables["end_mean_z"].name, default=input_variables["end_mean_z"].value)
-    L0A_scale_voltage = Parameter(input_variables["L0A_scale:voltage"].name, default=input_variables["L0A_scale:voltage"].value)
-    L0A_phase_dtheta_deg = Parameter(input_variables["L0A_phase:dtheta0_deg"].name, default=input_variables["L0A_phase:dtheta0_deg"].value)
-    SQ01_b1_gradient = Parameter(input_variables["SQ01:b1_gradient"].name, default=input_variables["SQ01:b1_gradient"].value)
-    CQ01_b1_gradient = Parameter(input_variables["CQ01:b1_gradient"].name, default=input_variables["CQ01:b1_gradient"].value)
-    SOL1_solenoid_field_scale = Parameter(input_variables["SOL1:solenoid_field_scale"].name, default=input_variables["SOL1:solenoid_field_scale"].value)
-    distgen_total_charge_value = Parameter(input_variables["distgen:total_charge:value"].name, default=input_variables["distgen:total_charge:value"].value)
-    distgen_t_dist_length_value = Parameter(input_variables["distgen:t_dist:length:value"].name, default=input_variables["distgen:t_dist:length:value"].value)
-    distgen_r_dist_sigma_xy_value = Parameter(input_variables["distgen:r_dist:sigma_xy:value"].name, default=input_variables["distgen:r_dist:sigma_xy:value"].value)
+    end_mean_z = Parameter(input_variables["end_mean_z"].name, default=input_variables["end_mean_z"].default)
+    L0A_scale_voltage = Parameter(input_variables["L0A_scale:voltage"].name, default=input_variables["L0A_scale:voltage"].default)
+    L0A_phase_dtheta_deg = Parameter(input_variables["L0A_phase:dtheta0_deg"].name, default=input_variables["L0A_phase:dtheta0_deg"].default)
+    SQ01_b1_gradient = Parameter(input_variables["SQ01:b1_gradient"].name, default=input_variables["SQ01:b1_gradient"].default)
+    CQ01_b1_gradient = Parameter(input_variables["CQ01:b1_gradient"].name, default=input_variables["CQ01:b1_gradient"].default)
+    SOL1_solenoid_field_scale = Parameter(input_variables["SOL1:solenoid_field_scale"].name, default=input_variables["SOL1:solenoid_field_scale"].default)
+    distgen_total_charge_value = Parameter(input_variables["distgen:total_charge:value"].name, default=input_variables["distgen:total_charge:value"].default)
+    distgen_t_dist_length_value = Parameter(input_variables["distgen:t_dist:length:value"].name, default=input_variables["distgen:t_dist:length:value"].default)
+    distgen_r_dist_sigma_xy_value = Parameter(input_variables["distgen:r_dist:sigma_xy:value"].name, default=input_variables["distgen:r_dist:sigma_xy:value"].default)
 
     output_variables = predict(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_total_charge_value, SOL1_solenoid_field_scale, CQ01_b1_gradient, SQ01_b1_gradient, L0A_phase_dtheta_deg, L0A_scale_voltage, end_mean_z)
 
