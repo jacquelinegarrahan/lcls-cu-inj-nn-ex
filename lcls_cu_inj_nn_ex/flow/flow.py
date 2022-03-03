@@ -12,18 +12,13 @@ import os
 
 dirname = os.path.dirname(__file__)
 
-# Requires a docker registry
-DOCKER_REGISTRY = os.environ.get("DOCKER_REGISTRY")
-if not DOCKER_REGISTRY:
-    print("Requires docker registry to be set.")
-    sys.exit()
 
 
-@task(log_stdout=True, cache_for=timedelta(hours=1),
-    cache_validator=cache_validators.all_parameters)
-def build_input_variables(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_total_charge_value, SOL1_solenoid_field_scale, CQ01_b1_gradient, SQ01_b1_gradient, L0A_phase_dtheta_deg, L0A_scale_voltage, end_mean_z):
 
-    input_variables = LCLSCuInjNN().input_variables
+@task(log_stdout=True)
+def predict(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_total_charge_value, SOL1_solenoid_field_scale, CQ01_b1_gradient, SQ01_b1_gradient, L0A_phase_dtheta_deg, L0A_scale_voltage, end_mean_z):
+
+    model = LCLSCuInjNN()
 
     input_variables["end_mean_z"].value = end_mean_z
     input_variables["L0A_scale:voltage"].value = L0A_scale_voltage
@@ -35,20 +30,14 @@ def build_input_variables(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_v
     input_variables["distgen:t_dist:length:value"].value = distgen_t_dist_length_value
     input_variables["distgen:r_dist:sigma_xy:value"].value = distgen_r_dist_sigma_xy_value
 
-    return list(input_variables.values())
-
-@task(log_stdout=True)
-def predict(input_variables):
-    model = LCLSCuInjNN()
     output_variables = model.evaluate(input_variables)
-    return output_variables
+    return {
+        var.name: var.value for var in output_variables
+    }
 
-
-
-input_variables = LCLSCuInjNN().input_variables
 
 docker_storage = Docker(
-    registry_url=DOCKER_REGISTRY, 
+    registry_url="jgarrahan", 
     image_name="lcls-cu-inj-nn-ex",
     image_tag="latest",
     # path=os.path.dirname(__file__),
@@ -58,10 +47,11 @@ docker_storage = Docker(
 )
 
 
+input_variables = LCLSCuInjNN().input_variables
 with Flow(
         "lcls-cu-inj-nn-ex",
         storage = docker_storage,
-        run_config=KubernetesRun(image=f"{DOCKER_REGISTRY}/lcls-cu-inj-nn-ex", image_pull_policy="Always"),
+        run_config=KubernetesRun(image="jgarrahan/lcls-cu-inj-nn-ex", image_pull_policy="Always"),
         result=PrefectResult()
     ) as flow:
 
@@ -71,9 +61,9 @@ with Flow(
 
 
         params.append(Parameter(var.name, default=var.default))
-        
-    input_variables = build_input_variables(*params)
-    output_variables = predict(input_variables)
+    
+    output_variables = predict(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_total_charge_value, SOL1_solenoid_field_scale, CQ01_b1_gradient, SQ01_b1_gradient, L0A_phase_dtheta_deg, L0A_scale_voltage, end_mean_z)
+    result = format_output(output_variables)
 
 docker_storage.add_flow(flow)
 
