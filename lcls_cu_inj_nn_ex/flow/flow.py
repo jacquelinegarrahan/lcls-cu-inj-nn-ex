@@ -3,6 +3,7 @@ from prefect.storage import Docker
 import os
 import sys
 from prefect import Parameter
+from prefect.engine.results import PrefectResult
 from prefect.engine import cache_validators
 from prefect.run_configs import KubernetesRun
 from lcls_cu_inj_nn_ex.model import LCLSCuInjNN
