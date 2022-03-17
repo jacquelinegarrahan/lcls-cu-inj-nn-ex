@@ -3,8 +3,6 @@ name: Publish flow docker image
 on:
   release:
     types: [published]
-    branches:
-      - main
 
 jobs:
   push_to_registry:
@@ -28,5 +26,4 @@ jobs:
         with:
           context: ./lcls_cu_inj_nn_ex/flow
           push: true
-      #    tags: jgarrahan/nalms-grafana:${{ github.event.release.tag_name }}, jgarrahan/nalms-grafana:latest
-          tags: jgarrahan/lcls-cu-inj-nn-ex:latest
+          tags: jgarrahan/lcls-cu-inj-nn-ex:${{ github.ref_name }},jgarrahan/lcls-cu-inj-nn-ex:latest
