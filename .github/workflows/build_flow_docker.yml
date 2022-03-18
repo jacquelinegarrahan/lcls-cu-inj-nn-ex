@@ -31,3 +31,5 @@ jobs:
           context: ./lcls_cu_inj_nn_ex/flow
           push: true
           tags: jgarrahan/lcls-cu-inj-nn-ex:${{ github.ref_name }},jgarrahan/lcls-cu-inj-nn-ex:latest
+          build-args: |
+            VERSION=${{ github.ref_name }}
