@@ -9,5 +9,4 @@ dependencies:
   - prefect[kubernetes]
   - pip
   - pip:
-    - git+https://github.com/jacquelinegarrahan/lcls-cu-inj-nn-ex.git
     - git+https://github.com/jacquelinegarrahan/lume-orchestration-demo.git
