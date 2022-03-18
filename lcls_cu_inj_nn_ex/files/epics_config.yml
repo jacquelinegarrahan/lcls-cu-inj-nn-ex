@@ -4,6 +4,16 @@ input_variables:
     protocol: ca
     serve: false
 
+  distgen:total_charge:value:
+    pvname: BPMS:IN20:221:TMIT
+    protocol: ca 
+    serve: false
+
+  distgen:t_dist:length:value: 
+    pvname: distgen:t_dist:length:value
+    protocol: ca 
+    serve: true
+
   SOL1:solenoid_field_scale:
     pvname: SOLN:IN20:121:BACT
     protocol: ca
@@ -34,40 +44,6 @@ input_variables:
     protocol: ca
     serve: false
 
-  L0B_scale:voltage:
-    pvname: ACCL:IN20:400:L0B_ADES
-    protocol: ca
-    serve: false
-
-  QA01:b1_gradient:
-    pvname: QUAD:IN20:361:BDES
-    protocol: ca
-    serve: false
-
-  QA02:b1_gradient:
-    pvname: QUAD:IN20:371:BACT
-    protocol: ca
-    serve: false
-
-  QE01:b1_gradient:
-    pvname: QUAD:IN20:425:BACT
-    protocol: ca
-    serve: false
-
-  QE02:b1_gradient:
-    pvname: QUAD:IN20:441:BACT
-    protocol: ca
-    serve: false
-
-  QE03:b1_gradient:
-    pvname: QUAD:IN20:511:BACT
-    protocol: ca
-    serve: false
-
-  QE04:b1_gradient:
-    pvname: QUAD:IN20:525:BDES
-    protocol: ca
-    serve: false
 
 output_variables:
   output:
