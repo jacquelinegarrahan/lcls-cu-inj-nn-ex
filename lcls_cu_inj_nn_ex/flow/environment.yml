@@ -1,0 +1,12 @@
+name: lcls_cu_inj_nn_ex_env
+channels:
+  - conda-forge
+dependencies:
+  - Python=3.9
+  - lume-model
+  - tensorflow
+  - numpy
+  - prefect[kubernetes]
+  - pip
+  - pip:
+    - git+https://github.com/jacquelinegarrahan/lume-orchestration-demo.git
