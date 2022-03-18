@@ -16,4 +16,4 @@ QE04,QE04,QUAD:IN20:525:BDES,-20,20,-5,-3,,kG,QE04:b1_gradient,-0.925925926,10.8
 Laser heater,,LASR:IN20:475:PWR1H,0,400,,,,uJ,,1,"beta*gamma sqrt(x)*7150/0.511e6, from fit from SLAC-PUB-14338 measurement (not theory)",1,,0
 Gun  voltage/energy?,,GUN:IN20:1:GN1_ADES,,,6,6,,MV?,,,,,,0
 Laser FWHM,,,,,,,,,distgen:t_dist:length:value,1.65,FWHM to optimially stacked 2-gaussian pulses. ,ps,6.6,0
-bunch charge,CATHODE,BPMS:IN20:221:TMIT,0,2000,0,2000,n_electrons,distgen:total_charge:value,1.602176634e-07,total charge on cathode, pC
+bunch charge,CATHODE,BPMS:IN20:221:TMIT,0,2000,0,2000,,n_electrons,distgen:total_charge:value,1.602176634e-07,total charge on cathode, pC

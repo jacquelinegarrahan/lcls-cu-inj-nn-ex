@@ -44,6 +44,10 @@ input_variables:
     protocol: ca
     serve: false
 
+  end_mean_z:
+    pvname: end_mean_z
+    protocol: ca
+    serve: True
 
 output_variables:
   output:
