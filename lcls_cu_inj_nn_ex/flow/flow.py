@@ -4,10 +4,7 @@ import os
 import sys
 from prefect import Parameter
 from prefect.engine.results import PrefectResult
-from prefect.engine import cache_validators
-from prefect.run_configs import KubernetesRun
 from lcls_cu_inj_nn_ex.model import LCLSCuInjNN
-import versioneer
 from datetime import timedelta
 import os
 from lcls_cu_inj_nn_ex import INPUT_VARIABLES, CU_INJ_MAPPING_TABLE
@@ -76,7 +73,7 @@ def model_predict(input_variables, settings):
 docker_storage = Docker(
     registry_url="jgarrahan", 
     image_name="lcls-cu-inj-nn-ex",
-    image_tag=versioneer.get_version(),
+   # image_tag=versioneer.get_version(),
     # path=os.path.dirname(__file__),
     build_kwargs = {"nocache": True},
     stored_as_script=True,
@@ -88,9 +85,6 @@ with Flow(
         "lcls-cu-inj-nn-ex",
         storage=docker_storage,
     ) as flow:
-
-
-    input_variables = LCLSCuInjNN().input_variables
 
 
     pv_values = Parameter("pv_values", default={})
