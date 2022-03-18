@@ -93,9 +93,9 @@ with Flow(
     input_variables = LCLSCuInjNN().input_variables
 
 
-    pv_values = Parameter("pv_values")
-    pvname_to_input_map = Parameter("pvname_to_input_map")
-    settings = Parameter("settings")
+    pv_values = Parameter("pv_values", default={})
+    pvname_to_input_map = Parameter("pvname_to_input_map", default={})
+    settings = Parameter("settings", default={})
     input_variables = format_epics_input(pv_values, pvname_to_input_map)
     output_variables = model_predict(input_variables, settings)
 
