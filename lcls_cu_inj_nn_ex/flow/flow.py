@@ -7,6 +7,7 @@ from prefect.engine.results import PrefectResult
 from prefect.engine import cache_validators
 from prefect.run_configs import KubernetesRun
 from lcls_cu_inj_nn_ex.model import LCLSCuInjNN
+import versioneer
 from datetime import timedelta
 import os
 
@@ -45,9 +46,9 @@ def predict(distgen_r_dist_sigma_xy_value, distgen_t_dist_length_value, distgen_
 docker_storage = Docker(
     registry_url="jgarrahan", 
     image_name="lcls-cu-inj-nn-ex",
-    image_tag="latest",
+    image_tag=versioneer.get_version(),
     # path=os.path.dirname(__file__),
-    # build_kwargs = {"nocache": True},
+    build_kwargs = {"nocache": True},
     stored_as_script=True,
     path=f"/opt/prefect/flow.py",
 )

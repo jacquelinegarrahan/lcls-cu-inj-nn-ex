@@ -2,7 +2,14 @@ FROM continuumio/miniconda3 AS build
 
 # Create environment
 COPY ./environment.yml .
-RUN conda env create -f ./environment.yml
+
+
+ARG VERSION
+ENV version=$VERSION
+
+RUN conda env create -f ./environment.yml && \
+  conda activate lcls_cu_inj_nn_ex_env && \
+  pip install https://github.com/jacquelinegarrahan/lcls-cu-inj-nn-ex/archive/refs/tags/${version}.tar.gz
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
