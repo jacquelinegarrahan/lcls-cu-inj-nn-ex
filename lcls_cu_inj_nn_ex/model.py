@@ -1,5 +1,5 @@
+from lcls_cu_inj_nn_ex import INPUT_VARIABLES, OUTPUT_VARIABLES
 from lume_model.keras import KerasModel
-from lume_model.utils import variables_from_yaml
 from tensorflow import keras
 import numpy as np
 from pkg_resources import resource_filename
@@ -79,12 +79,12 @@ class LCLSCuInjNN(KerasModel):
 
     def __init__(self, *args, **kwargs):
 
-        with open(VARIABLE_FILE, "r") as f:
-            input_variables, output_variables = variables_from_yaml(f)
 
-
-
-        super().__init__(*args, input_variables=input_variables, output_variables=output_variables, model_file=MODEL_FILE, custom_layers={"ScaleLayer": ScaleLayer, "UnScaleLayer": UnScaleLayer, "UnScaleImg": UnScaleImg}, **kwargs) 
+        super().__init__(*args, 
+                        input_variables=INPUT_VARIABLES, 
+                        output_variables=OUTPUT_VARIABLES, 
+                        model_file=MODEL_FILE, 
+                        custom_layers={"ScaleLayer": ScaleLayer, "UnScaleLayer": UnScaleLayer, "UnScaleImg": UnScaleImg}, **kwargs) 
         
 
     def format_input(self, input_dictionary):
