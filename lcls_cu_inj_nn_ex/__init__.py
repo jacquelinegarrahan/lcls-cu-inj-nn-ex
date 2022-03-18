@@ -1,6 +1,7 @@
 from . import _version
 from pkg_resources import resource_filename
 from lume_model.utils import variables_from_yaml
+import pandas as pd 
 
 __version__ = _version.get_versions()['version']
 
